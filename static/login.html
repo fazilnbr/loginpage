@@ -30,8 +30,8 @@ body {
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 600px;
-	width: 360px;	
+	height: 700px;
+	width: 420px;	
 	box-shadow: 0px 0px 24px #5C5696;
 }
 
@@ -186,6 +186,7 @@ body {
 	transform: scale(1.5);	
 }
     </style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     
@@ -193,7 +194,7 @@ body {
     <div class="container">
         <div class="screen">
             <div class="screen__content">
-                <form class="login" method="post" action="/login-submit" onsubmit="formvalidate()">
+                <form id="myform" class="login" method="post" action="/login-submit" >
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
                         <input id="username" name="username" type="text" class="login__input" placeholder="User name / Email" onblur="namecheck()">
@@ -210,7 +211,7 @@ body {
 						<label id="pwdlabel-01" for="username" style="display: none; color:red;">Atleast 6 charecters</label>
 						<!-- <label id="pwdlabel-02" for="username" style="display: none; color:red;">Password need special charecters</label> -->
                     </div>
-                    <button class="button login__submit">
+                    <button onclick="formvalidate()" class="button login__submit">
                         <span class="button__text">Log In Now</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>				
@@ -218,9 +219,9 @@ body {
                 <div class="social-login">
                     <h3>log in via</h3>
                     <div class="social-icons">
-                        <a href="#" class="social-login__icon fab fa-instagram"></a>
-                        <a href="#" class="social-login__icon fab fa-facebook"></a>
-                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                        <a href="#" class="social-login__icon fa fa-instagram"></a>
+                        <a href="#" class="social-login__icon fa fa-facebook"></a>
+                        <a href="#" class="social-login__icon fa fa-twitter"></a>
                     </div>
                 </div>
             </div>
@@ -314,6 +315,8 @@ body {
 
   function formvalidate(){
 	if (namecheck()&&passwordCheck()){
+		alert("ok")
+		document.getElementById("myform").submit();
 		return true
 	}else{
 		alert("give Exact detieals")

@@ -34,7 +34,7 @@ var P = Page{
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "no-cache,must-revalidate")
+	w.Header().Set("Cache-Control", "no-cache,no-store,must-revalidate")
 
 	ok := Middleware(w, r)
 
@@ -63,21 +63,25 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	password := r.PostForm.Get("password")
 
+	fmt.Printf("%T\n", r.PostForm.Get("username"))
+
 	if userDB["email"] == emails && userDB["password"] == password && r.Method == "POST" {
 
 		session, _ := Store.Get(r, "started")
 
 		session.Values["id"] = emails
 		P.Header1 = session.Values["id"]
-		fmt.Println(P.Header1)
+		// fmt.Println(P.Header1)
 		session.Save(r, w)
 
 		// fmt.Println(session)
 
-		w.Header().Set("Cache-Control", "no-cache, must-revalidate")
+		w.Header().Set("Cache-Control", "no-cache,no-store, must-revalidate")
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
+	} else if emails == "" || password == "" {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
 		// dialog.Alert("wrong passwod")
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -134,7 +138,7 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", Logouthandler)
 	fmt.Println("server starts at port 8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8000", nil); err != nil {
 		log.Fatal(err)
 	}
 
